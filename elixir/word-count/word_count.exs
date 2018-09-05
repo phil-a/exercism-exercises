@@ -10,10 +10,12 @@ defmodule Words do
     |> sanitize_sentence()
     |> String.downcase()
     |> String.split([" ", "_"], trim: true)
-    |> Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)
+    |> Enum.reduce(%{}, fn x, acc ->
+      Map.update(acc, x, 1, &(&1 + 1))
+    end)
   end
 
   defp sanitize_sentence(sentence) do
-    Regex.replace(~r/[\p{P}\p{S}](?<!-)(?<!_)/u, sentence, "")
+    Regex.replace(~r/[^[:alnum:]- _]/u, sentence, "")
   end
 end
